@@ -11,9 +11,10 @@ set -x DOCKER_HOST tcp://192.168.99.100:2376
 set -x DOCKER_CERT_PATH /Users/marcell/.docker/machine/machines/dev
 set -x DOCKER_TLS_VERIFY 1
 set -x GOPATH $HOME/Code/go
-set -gx PATH /usr/local/bin /bin /usr/sbin /sbin /usr/bin $GOPATH/bin 
+set -gx PATH /usr/local/bin /bin /usr/sbin /sbin /usr/bin $GOPATH/bin /Users/marcell/.cargo/bin 
 set -x AWS_CONFIG_FILE /Users/marcell/.aws/credentials
 set -x ANDROID_HOME /usr/local/opt/android-sdk
+set -x RUST_SRC_PATH /Users/marcell/Code/github.com/rustc-1.8.0/src
 
 . ~/.config/fish/functions/z-fish/z.fish
 

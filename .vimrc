@@ -38,6 +38,10 @@ Bundle 'scrooloose/nerdcommenter'
 " Elixir (Erlang) support
 Bundle 'elixir-lang/vim-elixir'
 
+" Rust support
+Bundle 'rust-lang/rust.vim'
+Bundle 'racer-rust/vim-racer'
+
 " Go support
 Bundle 'fatih/vim-go'
 
@@ -56,7 +60,7 @@ Bundle 'tpope/vim-fireplace'
 " Replace / surround stuff with quotes and others
 Bundle 'tpope/vim-surround'
 
-" Haskell fmt
+" HCL formatting
 Bundle 'fatih/vim-hclfmt'
 
 " JSX highlighting
@@ -69,11 +73,20 @@ Bundle 'easymotion/vim-easymotion'
 Bundle 'godlygeek/tabular'
 map \t :Tabular
 
+" Terraform + HCL
+Bundle 'hashivim/vim-terraform'
+
+" Scala support
+Bundle 'derekwyatt/vim-scala'
+
+" Haskell syntax
+Bundle 'neovimhaskell/haskell-vim'
+
 call vundle#end()            " required
 filetype plugin indent on    " required
 
 " enable syntax highlighting
-syntax enable
+syntax on
 
 " set colorscheme
 color gruvbox
@@ -88,9 +101,8 @@ map \l :setlocal number!<CR>
 map \o :set paste!<CR>
 " map NERDTree
 map <C-n> :NERDTreeToggle<CR>
-" map Tern Shortcuts
-" map \t :TernType<CR>
-" map \d :TernDef<CR>
+" map haskell styling
+map \h :%!stylish-haskell<CR>
 
 " enable backspace
 set backspace=2
@@ -114,3 +126,7 @@ set hlsearch
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
 
 set colorcolumn=80
+
+set hidden
+let g:racer_cmd="/Users/marcell/.cargo/bin/racer"
+let $RUST_SRC_PATH="/Users/marcell/Code/github.com/rustc-1.8.0"
