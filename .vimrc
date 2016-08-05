@@ -17,14 +17,21 @@ Bundle 'morhetz/gruvbox'
 " Quick file open with fuzz search
 Bundle 'kien/ctrlp.vim'
 let g:ctrlp_custom_ignore = {
-	\ 'dir': '\v[\/]\.?(git|hg|node_modules)$',
-	\ }
+        \ 'dir': '\v[\/]\.?(git|hg|node_modules)$',
+        \ }
 
 " Improved JS support
 Bundle 'pangloss/vim-javascript'
 
 " Powerbar at bottom
-Bundle 'Lokaltog/vim-powerline'
+Bundle 'vim-airline/vim-airline'
+
+" Tabs
+Bundle 'bling/vim-bufferline'
+let g:bufferline_show_bufnr = 1
+let g:bufferline_echo = 0
+map <C-b> :bn<CR>
+map <C-v> :bp<CR>
 
 " Syntax goodness
 Bundle 'scrooloose/syntastic'
@@ -40,7 +47,7 @@ Bundle 'elixir-lang/vim-elixir'
 
 " Rust support
 Bundle 'rust-lang/rust.vim'
-Bundle 'racer-rust/vim-racer'
+"Bundle 'racer-rust/vim-racer'
 
 " Go support
 Bundle 'fatih/vim-go'
@@ -59,6 +66,9 @@ Bundle 'tpope/vim-fireplace'
 
 " Replace / surround stuff with quotes and others
 Bundle 'tpope/vim-surround'
+
+" Git support
+Bundle 'tpope/vim-fugitive'
 
 " HCL formatting
 Bundle 'fatih/vim-hclfmt'
@@ -82,6 +92,12 @@ Bundle 'derekwyatt/vim-scala'
 " Haskell syntax
 Bundle 'neovimhaskell/haskell-vim'
 
+" Coffee script syntax
+Bundle 'kchmck/vim-coffee-script'
+
+" File utils
+Bundle 'tpope/vim-eunuch'
+
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -95,8 +111,6 @@ set background=dark
 " allow JSX syntax highlighting for .js files
 let g:jsx_ext_required = 0
 
-" off/on line number
-map \l :setlocal number!<CR>
 " remap paste
 map \o :set paste!<CR>
 " map NERDTree
@@ -123,10 +137,22 @@ set noeol
 " Highlight searched items
 set hlsearch
 
-set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
+set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
 
 set colorcolumn=80
 
+set cursorline
+
+function! NumberToggle()
+    if(&relativenumber == 1)
+        set number
+        set norelativenumber
+    else
+        set nonumber
+        set relativenumber
+    endif
+endfunc
+map \l :call NumberToggle()<cr>
+
 set hidden
-let g:racer_cmd="/Users/marcell/.cargo/bin/racer"
-let $RUST_SRC_PATH="/Users/marcell/Code/github.com/rustc-1.8.0"
+
