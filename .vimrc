@@ -98,6 +98,10 @@ Bundle 'kchmck/vim-coffee-script'
 " File utils
 Bundle 'tpope/vim-eunuch'
 
+" Tags manager (non-generic)
+Bundle 'majutsushi/tagbar'
+nmap <F8> :TagbarToggle<CR>
+
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -154,5 +158,8 @@ function! NumberToggle()
 endfunc
 map \l :call NumberToggle()<cr>
 
-set hidden
+if exists(':tnoremap')
+  tnoremap <Esc> <C-\><C-n>
+endif
 
+set hidden
