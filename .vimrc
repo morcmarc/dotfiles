@@ -169,3 +169,5 @@ if exists(':tnoremap')
 endif
 
 set hidden
+
+autocmd BufWritePre * %s/\s\+$//e
