@@ -11,6 +11,8 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Bundle 'gmarik/Vundle.vim'
 
+Bundle 'edkolev/tmuxline.vim'
+
 " Color scheme
 Bundle 'morhetz/gruvbox'
 
@@ -25,6 +27,7 @@ Bundle 'pangloss/vim-javascript'
 
 " Powerbar at bottom
 Bundle 'vim-airline/vim-airline'
+let g:airline_powerline_fonts = 1
 
 " Tabs
 Bundle 'bling/vim-bufferline'
@@ -69,6 +72,7 @@ Bundle 'tpope/vim-surround'
 
 " Git support
 Bundle 'tpope/vim-fugitive'
+Bundle 'airblade/vim-gitgutter'
 
 " HCL formatting
 Bundle 'fatih/vim-hclfmt'
