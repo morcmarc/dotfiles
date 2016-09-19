@@ -27,6 +27,8 @@ Bundle 'pangloss/vim-javascript'
 
 " Powerbar at bottom
 Bundle 'vim-airline/vim-airline'
+Bundle 'vim-airline/vim-airline-themes'
+let g:airline_theme='base16'
 let g:airline_powerline_fonts = 1
 
 " Tabs
