@@ -147,7 +147,7 @@ set noeol
 " Highlight searched items
 set hlsearch
 
-set tabstop=2 softtabstop=2 shiftwidth=2 expandtab
+set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
 
 set colorcolumn=80
 
@@ -169,5 +169,3 @@ if exists(':tnoremap')
 endif
 
 set hidden
-
-autocmd BufWritePre * %s/\s\+$//e
