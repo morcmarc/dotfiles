@@ -11,7 +11,7 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Bundle 'gmarik/Vundle.vim'
 
-Bundle 'edkolev/tmuxline.vim'
+"Bundle 'edkolev/tmuxline.vim'
 
 " Color scheme
 Bundle 'morhetz/gruvbox'
@@ -47,18 +47,30 @@ Bundle 'scrooloose/nerdtree'
 " Commenting
 Bundle 'scrooloose/nerdcommenter'
 
+Bundle 'Shougo/deoplete.nvim'
+let g:deoplete#enable_at_startup = 1
+
 " Elixir (Erlang) support
-Bundle 'elixir-lang/vim-elixir'
+"Bundle 'elixir-lang/vim-elixir'
 
 " Rust support
-Bundle 'rust-lang/rust.vim'
+"Bundle 'rust-lang/rust.vim'
 "Bundle 'racer-rust/vim-racer'
 
 " Go support
 Bundle 'fatih/vim-go'
+au FileType go nmap <Leader>l <Plug>(go-metalinter)
+au FileType go nmap <Leader>t <Plug>(go-test)
+au FileType go nmap <Leader>b <Plug>(go-build)
+au FileType go nnoremap <leader>a :cclose<CR>
+let g:go_fmt_command = "goimports"
+Bundle 'zchee/deoplete-go'
+let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
+let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
+let g:deoplete#sources#go#pointer = 1
 
 " Lein support (Clojure)
-Bundle 'tpope/vim-salve'
+"Bundle 'tpope/vim-salve'
 
 " Project management (syntax highlighting per folder, per file etc)
 Bundle 'tpope/vim-projectionist'
@@ -67,14 +79,14 @@ Bundle 'tpope/vim-projectionist'
 Bundle 'tpope/vim-dispatch'
 
 " Clojure REPL
-Bundle 'tpope/vim-fireplace'
+" Bundle 'tpope/vim-fireplace'
 
 " Replace / surround stuff with quotes and others
 Bundle 'tpope/vim-surround'
 
 " Git support
-Bundle 'tpope/vim-fugitive'
-Bundle 'airblade/vim-gitgutter'
+"Bundle 'tpope/vim-fugitive'
+"Bundle 'airblade/vim-gitgutter'
 
 " HCL formatting
 Bundle 'fatih/vim-hclfmt'
@@ -93,20 +105,20 @@ map \t :Tabular
 Bundle 'hashivim/vim-terraform'
 
 " Scala support
-Bundle 'derekwyatt/vim-scala'
+"Bundle 'derekwyatt/vim-scala'
 
 " Haskell syntax
-Bundle 'neovimhaskell/haskell-vim'
+"Bundle 'neovimhaskell/haskell-vim'
 
 " Coffee script syntax
-Bundle 'kchmck/vim-coffee-script'
+"Bundle 'kchmck/vim-coffee-script'
 
 " File utils
 Bundle 'tpope/vim-eunuch'
 
 " Tags manager (non-generic)
-Bundle 'majutsushi/tagbar'
-nmap <F8> :TagbarToggle<CR>
+"Bundle 'majutsushi/tagbar'
+"nmap <F8> :TagbarToggle<CR>
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -150,8 +162,11 @@ set hlsearch
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
 
 set colorcolumn=80
-
-set cursorline
+set synmaxcol=120
+set nocursorcolumn
+syntax sync minlines=256
+set re=1
+set nocursorline
 
 function! NumberToggle()
     if(&relativenumber == 1)
