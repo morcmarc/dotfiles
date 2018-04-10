@@ -1,5 +1,5 @@
 " Needed because I'm using fish
-set shell=/bin/zsh
+set shell=/bin/bash
 
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -11,28 +11,7 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Bundle 'gmarik/Vundle.vim'
 
-Bundle 'utl.vim'
-Bundle 'taglist.vim'
-Bundle 'repeat.vim'
-Bundle 'speeddating.vim'
-Bundle 'calendar.vim'
-
-" Searching
-Bundle 'haya14busa/incsearch.vim'
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-set hlsearch
-let g:incsearch#auto_nohlsearch = 1
-map n  <Plug>(incsearch-nohl-n)
-map N  <Plug>(incsearch-nohl-N)
-map *  <Plug>(incsearch-nohl-*)
-map #  <Plug>(incsearch-nohl-#)
-map g* <Plug>(incsearch-nohl-g*)
-map g# <Plug>(incsearch-nohl-g#)
-
-" Insert closing parens, brackets etc
-Bundle 'Raimondi/delimitMate'
+"Bundle 'edkolev/tmuxline.vim'
 
 " Color scheme
 Bundle 'morhetz/gruvbox'
@@ -40,8 +19,8 @@ Bundle 'morhetz/gruvbox'
 " Quick file open with fuzz search
 Bundle 'kien/ctrlp.vim'
 let g:ctrlp_custom_ignore = {
-            \ 'dir': '\v[\/]\.?(git|hg|node_modules)$',
-            \ }
+        \ 'dir': '\v[\/]\.?(git|hg|node_modules)$',
+        \ }
 
 " Improved JS support
 Bundle 'pangloss/vim-javascript'
@@ -59,9 +38,6 @@ let g:bufferline_echo = 0
 map <C-b> :bn<CR>
 map <C-v> :bp<CR>
 
-" Expand region
-Bundle 'terryma/vim-expand-region'
-
 " Syntax goodness
 Bundle 'scrooloose/syntastic'
 
@@ -72,23 +48,24 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'scrooloose/nerdcommenter'
 
 Bundle 'Shougo/deoplete.nvim'
-let g:deoplete#enable_at_startup = 1
-set completeopt-=preview
+
+" Elixir (Erlang) support
+"Bundle 'elixir-lang/vim-elixir'
+
+" Rust support
+"Bundle 'rust-lang/rust.vim'
+"Bundle 'racer-rust/vim-racer'
 
 " Go support
 Bundle 'fatih/vim-go'
 au FileType go nmap <Leader>l <Plug>(go-metalinter)
 au FileType go nmap <Leader>t <Plug>(go-test)
 au FileType go nmap <Leader>b <Plug>(go-build)
-au FileType go nmap <Leader>d <Plug>(go-def)
 au FileType go nnoremap <leader>a :cclose<CR>
 let g:go_fmt_command = "goimports"
-let g:go_snippet_engine = "automatic"
 
-Bundle 'zchee/deoplete-go'
-let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
-let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
-let g:deoplete#sources#go#pointer = 1
+" Lein support (Clojure)
+"Bundle 'tpope/vim-salve'
 
 " Project management (syntax highlighting per folder, per file etc)
 Bundle 'tpope/vim-projectionist'
@@ -96,21 +73,18 @@ Bundle 'tpope/vim-projectionist'
 " Async operations (i.e, run `make`)
 Bundle 'tpope/vim-dispatch'
 
+" Clojure REPL
+" Bundle 'tpope/vim-fireplace'
+
 " Replace / surround stuff with quotes and others
 Bundle 'tpope/vim-surround'
 
 " Git support
-Bundle 'tpope/vim-fugitive'
-Bundle 'airblade/vim-gitgutter'
-map \gs :Gstatus<CR>
-map \gp :Gpush<CR>
-map \gu :Gpull --rebase<CR>
+"Bundle 'tpope/vim-fugitive'
+"Bundle 'airblade/vim-gitgutter'
 
 " HCL formatting
 Bundle 'fatih/vim-hclfmt'
-
-" Format code plugin
-Bundle 'Chiel92/vim-autoformat'
 
 " JSX highlighting
 Bundle 'mxw/vim-jsx'
@@ -125,23 +99,21 @@ map \t :Tabular
 " Terraform + HCL
 Bundle 'hashivim/vim-terraform'
 
+" Scala support
+"Bundle 'derekwyatt/vim-scala'
+
+" Haskell syntax
+"Bundle 'neovimhaskell/haskell-vim'
+
+" Coffee script syntax
+"Bundle 'kchmck/vim-coffee-script'
+
 " File utils
 Bundle 'tpope/vim-eunuch'
 
 " Tags manager (non-generic)
-Bundle 'majutsushi/tagbar'
-nmap <F8> :TagbarToggle<CR>
-
-" Distraction free editing
-Bundle 'junegunn/goyo.vim'
-Bundle 'junegunn/limelight.vim'
-autocmd! User GoyoEnter Limelight
-autocmd! User GoyoLeave Limelight!
-
-Bundle 'SirVer/ultisnips'
-let g:UltiSnipsExpandTrigger="<tab>"
-
-Bundle 'honza/vim-snippets'
+"Bundle 'majutsushi/tagbar'
+"nmap <F8> :TagbarToggle<CR>
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -179,13 +151,17 @@ set mouse=a
 set binary
 set noeol
 
+" Highlight searched items
+set hlsearch
+
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
 
-"set colorcolumn=80
-set synmaxcol=128
-syntax sync minlines=256
+set colorcolumn=80
+set synmaxcol=120
 set nocursorcolumn
-set cursorline
+syntax sync minlines=256
+set re=1
+set nocursorline
 
 function! NumberToggle()
     if(&relativenumber == 1)
@@ -196,24 +172,10 @@ function! NumberToggle()
         set relativenumber
     endif
 endfunc
-map \^ :call NumberToggle()<cr>
+map \l :call NumberToggle()<cr>
 
 if exists(':tnoremap')
-    tnoremap <Esc> <C-\><C-n>
+  tnoremap <Esc> <C-\><C-n>
 endif
 
-au FileType javascript.jsx nmap <Leader>l :Dispatch yarn eslint %<cr>
-autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
-
-nmap <Leader>f :Autoformat<cr>
-
-let g:tagbar_type_make = {
-            \ 'kinds':[
-            \ 'm:macros',
-            \ 't:targets'
-            \ ]
-            \}
-
 set hidden
-
-set termguicolors
