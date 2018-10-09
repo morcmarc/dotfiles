@@ -187,7 +187,7 @@ nnoremap <leader>sv :source $MYVIMRC<CR>
 " better undo
 nnoremap <leader>u :GundoToggle<CR>
 " nice paste
-map \o :set paste!<CR>
+map <leader>o :set paste!<CR>
 " map NERDTree
 map <C-n> :NERDTreeToggle<CR>
 " map search
@@ -216,7 +216,7 @@ map <leader>gu :Gpull --rebase<CR>
 " alignment
 map <localleader>t :Tabular
 " tagbar
-nmap <leader><t> :TagbarToggle<CR>
+nmap <leader>t :TagbarToggle<CR>
 " ack / ag binding
 nnoremap <leader>a :Ack<space>
 " autoformatting
