@@ -7,6 +7,7 @@
 
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -14,7 +15,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (expand-region helm-projectile projectile helm gruvbox-theme flymake-racket paredit racket-mode use-package flycheck flycheck-golangci-lint flycheck-gometalinter go-mode))))
+    (org-present magit markdown-mode markdown-mode+ markdownfmt expand-region helm-projectile projectile helm gruvbox-theme flymake-racket paredit racket-mode use-package flycheck flycheck-golangci-lint flycheck-gometalinter go-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -65,6 +66,9 @@
 (require 'expand-region)
 (global-set-key (kbd "<f9>") 'er/expand-region)
 (global-set-key (kbd "<f8>") 'er/contract-region)
+
+;; Highlight current line
+(global-hl-line-mode t)
 
 (provide 'init)
 ;;; init.el ends here
