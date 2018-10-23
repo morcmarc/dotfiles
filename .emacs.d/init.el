@@ -1,8 +1,8 @@
+;;; init.el --- my emacs configuration
 
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
+;;; Commentary:
+
+;;; Code:
 (package-initialize)
 
 (require 'package)
@@ -13,9 +13,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("003a9aa9e4acb50001a006cfde61a6c3012d373c4763b48ceb9d523ceba66829" "3eb93cd9a0da0f3e86b5d932ac0e3b5f0f50de7a0b805d4eb1f67782e9eb67a4" "b563a87aa29096e0b2e38889f7a5e3babde9982262181b65de9ce8b78e9324d5" "8d5f22f7dfd3b2e4fc2f2da46ee71065a9474d0ac726b98f647bc3c7e39f2819" "b59d7adea7873d58160d368d42828e7ac670340f11f36f67fa8071dbf957236a" default)))
  '(package-selected-packages
    (quote
-    (org-present magit markdown-mode markdown-mode+ markdownfmt expand-region helm-projectile projectile helm gruvbox-theme flymake-racket paredit racket-mode use-package flycheck flycheck-golangci-lint flycheck-gometalinter go-mode))))
+    (avy company-go yaml-mode company scribble-mode airline-themes powerline gnuplot-mode ag helm-ag helm-flycheck org-present magit markdown-mode markdown-mode+ markdownfmt expand-region helm-projectile projectile helm gruvbox-theme flymake-racket paredit racket-mode use-package flycheck flycheck-golangci-lint flycheck-gometalinter go-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -47,8 +50,13 @@
 (add-hook 'racket-mode-hook           #'enable-paredit-mode)
 
 (require 'helm-config)
+(global-set-key (kbd "M-x") #'helm-M-x)
+(global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
+(global-set-key (kbd "C-x C-f") #'helm-find-files)
+(helm-mode 1)
 
 ;; Enable projectile and set keybindings
+(require 'projectile)
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
@@ -69,6 +77,53 @@
 
 ;; Highlight current line
 (global-hl-line-mode t)
+
+;; Disable menu bar
+(menu-bar-mode -1)
+
+;; Status bar
+(require 'powerline)
+(require 'airline-themes)
+(load-theme 'airline-powerlineish)
+;; Fix glyphs
+(setq powerline-utf-8-separator-left        #xe0b0
+      powerline-utf-8-separator-right       #xe0b2
+      airline-utf-glyph-separator-left      #xe0b0
+      airline-utf-glyph-separator-right     #xe0b2
+      airline-utf-glyph-subseparator-left   #xe0b1
+      airline-utf-glyph-subseparator-right  #xe0b3
+      airline-utf-glyph-branch              #xe0a0
+      airline-utf-glyph-readonly            #xe0a2
+      airline-utf-glyph-linenumber          #xe0a1)
+
+;; Enable auto-completion
+(require 'company)
+(require 'company-go)
+(add-hook 'after-init-hook 'global-company-mode)
+(add-hook 'go-mode-hook (lambda ()
+                          (set (make-local-variable 'company-backends) '(company-go))
+                          (company-mode)))
+;; Increase company-mode popup size
+(setq company-tooltip-limit 20)
+(global-set-key (kbd "C-M-i") 'company-complete)
+
+;; Run goimport before saving file
+(require 'go-mode)
+(setq gofmt-command "goimports")
+(add-hook 'before-save-hook 'gofmt-before-save)
+
+;; Shift-Arrow window navigation
+(windmove-default-keybindings)
+
+;; Show line numbers
+(when (version<= "26.0.50" emacs-version )
+  (global-display-line-numbers-mode))
+
+;; Easymotion
+(require 'avy)
+(global-set-key (kbd "M-g f") 'avy-goto-line)
+(global-set-key (kbd "M-g e") 'avy-goto-word-0)
+
 
 (provide 'init)
 ;;; init.el ends here
