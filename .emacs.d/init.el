@@ -33,6 +33,15 @@
 ;; Enabel flycheck globally
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
+;; Disable jshint since we prefer eslint checking
+(setq-default flycheck-disabled-checkers
+  (append flycheck-disabled-checkers
+	  '(javascript-jshint)))
+
+;; Use eslint with web-mode for jsx files
+(add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
+(flycheck-add-mode 'javascript-eslint 'web-mode)
+
 ;; Smooth scroll i.e., don't jump half pages
 (setq scroll-step 1)
 
@@ -124,6 +133,8 @@
 (global-set-key (kbd "M-g f") 'avy-goto-line)
 (global-set-key (kbd "M-g e") 'avy-goto-word-0)
 
+(require 'markdown-mode)
+(setq auto-mode-alist (append '(("\\.md.html\\'" . markdown-mode)) auto-mode-alist))
 
 (provide 'init)
 ;;; init.el ends here

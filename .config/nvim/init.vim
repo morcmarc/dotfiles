@@ -29,6 +29,7 @@ Bundle 'taglist.vim'
 Bundle 'repeat.vim'
 Bundle 'speeddating.vim'
 Bundle 'calendar.vim'
+" Bundle 'paredit.vim'
 
 " Better undo
 Bundle 'sjl/gundo.vim'
@@ -109,8 +110,22 @@ Bundle 'airblade/vim-gitgutter'
 " HCL formatting
 Bundle 'fatih/vim-hclfmt'
 
+Bundle 'w0rp/ale'
+let g:ale_linters = {
+            \'javascript': ['eslint'],
+            \'jsx': ['eslint']
+            \}
+"let g:ale_fixers = {
+            "\'javascript': ['eslint'],
+            "\'jsx': ['eslint']
+            "\}
+"let g:ale_fix_on_save = 1
+"let g:ale_completion_enabled = 1
+
 " Format code plugin
 Bundle 'Chiel92/vim-autoformat'
+let g:formatters_javascript = ['eslint_local']
+let g:formatters_jsx = ['eslint_local']
 
 " JSX highlighting
 Bundle 'mxw/vim-jsx'
@@ -142,15 +157,19 @@ Bundle 'junegunn/limelight.vim'
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
 
+" Snippets
 Bundle 'SirVer/ultisnips'
 let g:UltiSnipsExpandTrigger="<tab>"
 
 Bundle 'honza/vim-snippets'
 
-Bundle 'jceb/vim-orgmode'
-
+" Replace grep with ack, using ag for backend
 Bundle 'mileszs/ack.vim'
 let g:ackprg = 'ag --vimgrep'
+
+" Racket
+"Bundle 'wlangstroth/vim-racket'
+"let g:syntastic_enable_racket_racket_checker=1
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -166,6 +185,9 @@ set background=dark
 
 " allow JSX syntax highlighting for .js files
 let g:jsx_ext_required = 0
+
+" highlight Markdeep files as markdown
+au BufNewFile,BufRead *.md.html set filetype=markdown
 " }}}
 
 " Keybindings {{{
@@ -208,6 +230,7 @@ au FileType go nmap <Leader>l <Plug>(go-metalinter)
 au FileType go nmap <Leader>t <Plug>(go-test)
 au FileType go nmap <Leader>b <Plug>(go-build)
 au FileType go nmap <Leader>d <Plug>(go-def)
+au FileType go nmap <F18> <Plug>(go-rename)
 au FileType go nnoremap <leader>a :cclose<CR>
 " fugitive / git bindings
 map <leader>gs :Gstatus<CR>
@@ -225,6 +248,8 @@ nmap <Leader>f :Autoformat<cr>
 au FileType javascript.jsx nmap <Leader>l :Dispatch yarn eslint %<cr>
 " Line number toggle
 map <leader>^ :call NumberToggle()<cr>
+" Paredit
+map <C->> <Plug>(paredit-slurp)
 " tmux
 if exists(':tnoremap')
     tnoremap <Esc> <C-\><C-n>
