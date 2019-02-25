@@ -3,7 +3,7 @@
 # Any items in the `env` entry below will be added as
 # environment variables. Some entries may override variables
 # set by alacritty it self.
-env:
+#env:
   # TERM env customization.
   #
   # If this property is not set, alacritty will set it to xterm-256color.
@@ -11,7 +11,7 @@ env:
   # Note that some xterm terminfo databases don't declare support for italics.
   # You can verify this by checking for the presence of `smso` and `sitm` in
   # `infocmp xterm-256color`.
-  TERM: xterm-256color
+  #TERM: xterm-256color
 
 window:
   # Window dimensions in character columns and lines
@@ -29,7 +29,7 @@ window:
 
   # Window decorations
   # Setting this to false will result in window without borders and title bar.
-  decorations: true
+  decorations: full
 
 # Display tabs using this many cells (changes require restart)
 tabspaces: 4
@@ -63,15 +63,15 @@ font:
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
   offset:
-    x: 0.0
-    y: 0.0
+    x: 0
+    y: 0
 
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increase the x offset to move the glyph to
   # the right, increase the y offset to move the glyph upward.
   glyph_offset:
-    x: 0.0
-    y: 0.0
+    x: 0
+    y: 0
 
   # OS X only: use thin stroke font rendering. Thin strokes are suitable
   # for retina displays, but for non-retina you probably want this set to
@@ -81,54 +81,50 @@ font:
 # Should display the render timer
 render_timer: false
 
-# Use custom cursor colors. If true, display the cursor in the cursor.foreground
-# and cursor.background colors, otherwise invert the colors of the cursor.
-custom_cursor_colors: false
-
 # Colors (Tomorrow Night Bright)
 colors:
   # Default colors
   primary:
-    background: '0x282828'
-    foreground: '0xfbf1c7'
+    background: '0x282828ff'
+    foreground: '0xfbf1c7ff'
 
   # Colors the cursor will use if `custom_cursor_colors` is true
-  cursor:
-    text: '0x000000'
-    cursor: '0x#1e1e1e'
+  #cursor:
+    #text: '0x000000ff'
+    #cursor: '0x1e1e1eff'
 
   # Normal colors
   normal:
-    black:   '0x282828'
-    red:     '0xcc241d'
-    green:   '0x98971a'
-    yellow:  '0xd79921'
-    blue:    '0x458588'
-    magenta: '0xb16286'
-    cyan:    '0x689d6a'
-    white:   '0xfbf1c7'
+    black:   '0x282828ff'
+    red:     '0xcc241dff'
+    green:   '0x98971aff'
+    yellow:  '0xd79921ff'
+    blue:    '0x458588ff'
+    magenta: '0xb16286ff'
+    cyan:    '0x689d6aff'
+    white:   '0xfbf1c7ff'
 
   # Bright colors
   bright:
-    black:   '0x666666'
-    red:     '0xfb4934'
-    green:   '0xb8bb26'
-    yellow:  '0xfabd2f'
-    blue:    '0x83a598'
-    magenta: '0xd3869b'
-    cyan:    '0x8ec07c'
-    white:   '0xf9f5d7'
+    black:   '0x666666ff'
+    red:     '0xfb4934ff'
+    green:   '0xb8bb26ff'
+    yellow:  '0xfabd2fff'
+    blue:    '0x83a598ff'
+    magenta: '0xd3869bff'
+    cyan:    '0x8ec07cff'
+    white:   '0xf9f5d7ff'
 
   # Dim colors (Optional)
   dim:
-    black:   '0x32302f'
-    red:     '0x9d0006'
-    green:   '0x79740e'
-    yellow:  '0xb57614'
-    blue:    '0x076678'
-    magenta: '0x8f3f71'
-    cyan:    '0x427b58'
-    white:   '0xf2e5bc'
+    black:   '0x32302fff'
+    red:     '0x9d0006ff'
+    green:   '0x79740eff'
+    yellow:  '0xb57614ff'
+    blue:    '0x076678ff'
+    magenta: '0x8f3f71ff'
+    cyan:    '0x427b58ff'
+    white:   '0xf2e5bcff'
 
 
 # Visual Bell
@@ -195,14 +191,15 @@ mouse:
   # scrolling for applications like `man`.
   #
   # To disable this completely, set `faux_scrollback_lines` to 0.
-  faux_scrollback_lines: 1
+  faux_scrolling_lines: 1
 
 selection:
   semantic_escape_chars: ",│`|:\"' ()[]{}<>"
 
 dynamic_title: true
 
-hide_cursor_when_typing: false
+mourse:
+  hide_when_typing: false
 
 # Style of the cursor
 #
@@ -210,10 +207,13 @@ hide_cursor_when_typing: false
 # - Block
 # - Underline
 # - Beam
-cursor_style: Block
+cursor:
+  style: Block
 
 # Live config reload (changes require restart)
 live_config_reload: true
+
+alt_send_esc: true
 
 # Shell
 #
@@ -285,12 +285,12 @@ key_bindings:
   - { key: Delete,                  chars: "\x1b[3~"                     }
   - { key: Left,     mods: Shift,   chars: "\x1b[1;2D"                   }
   - { key: Left,     mods: Control, chars: "\x1b[1;5D"                   }
-  - { key: Left,     mods: Alt,     chars: "\x1b[1;3D"                   }
+  - { key: Left,     mods: Alt,     chars: "\x1bb"                       }
   - { key: Left,                    chars: "\x1b[D",   mode: ~AppCursor  }
   - { key: Left,                    chars: "\x1bOD",   mode: AppCursor   }
   - { key: Right,    mods: Shift,   chars: "\x1b[1;2C"                   }
   - { key: Right,    mods: Control, chars: "\x1b[1;5C"                   }
-  - { key: Right,    mods: Alt,     chars: "\x1b[1;3C"                   }
+  - { key: Right,    mods: Alt,     chars: "\x1bf"                       }
   - { key: Right,                   chars: "\x1b[C",   mode: ~AppCursor  }
   - { key: Right,                   chars: "\x1bOC",   mode: AppCursor   }
   - { key: Up,       mods: Shift,   chars: "\x1b[1;2A"                   }
@@ -415,16 +415,6 @@ key_bindings:
   - { key: X,         mods: Alt|Shift, chars: "\x1bX"                       }
   - { key: Y,         mods: Alt|Shift, chars: "\x1bY"                       }
   - { key: Z,         mods: Alt|Shift, chars: "\x1bZ"                       }
-  - { key: Key1,      mods: Alt,       chars: "\x1b1"                       }
-  - { key: Key2,      mods: Alt,       chars: "\x1b2"                       }
-  - { key: Key3,      mods: Alt,       chars: "\x1b3"                       }
-  - { key: Key4,      mods: Alt,       chars: "\x1b4"                       }
-  - { key: Key5,      mods: Alt,       chars: "\x1b5"                       }
-  - { key: Key6,      mods: Alt,       chars: "\x1b6"                       }
-  - { key: Key7,      mods: Alt,       chars: "\x1b7"                       }
-  - { key: Key8,      mods: Alt,       chars: "\x1b8"                       }
-  - { key: Key9,      mods: Alt,       chars: "\x1b9"                       }
-  - { key: Key0,      mods: Alt,       chars: "\x1b0"                       }
   - { key: Space,     mods: Control,   chars: "\x00"                        } # Ctrl + Space
   - { key: Grave,     mods: Alt,       chars: "\x1b`"                       } # Alt + `
   - { key: Grave,     mods: Alt|Shift, chars: "\x1b~"                       } # Alt + ~

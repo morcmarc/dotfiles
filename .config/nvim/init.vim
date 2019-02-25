@@ -47,12 +47,12 @@ Bundle 'Raimondi/delimitMate'
 Bundle 'morhetz/gruvbox'
 
 " Quick file open with fuzz search
-Bundle 'kien/ctrlp.vim'
-let g:ctrlp_custom_ignore = {'dir': '\v[\/]\.?(git|hg|node_modules)$',}
-let g:ctrlp_match_window = 'bottom,order:ttb'
-let g:ctrlp_switch_buffer = 0
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+"Bundle 'kien/ctrlp.vim'
+"let g:ctrlp_custom_ignore = {'dir': '\v[\/]\.?(git|hg|node_modules)$',}
+"let g:ctrlp_match_window = 'bottom,order:ttb'
+"let g:ctrlp_switch_buffer = 0
+"let g:ctrlp_working_path_mode = 0
+"let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 
 " Improved JS support
 Bundle 'pangloss/vim-javascript'
@@ -76,6 +76,7 @@ Bundle 'scrooloose/syntastic'
 
 " Filebrowser sidebar
 Bundle 'scrooloose/nerdtree'
+let NERDTreeQuitOnOpen=1
 
 " Commenting
 Bundle 'scrooloose/nerdcommenter'
@@ -105,10 +106,8 @@ Bundle 'tpope/vim-surround'
 
 " Git support
 Bundle 'tpope/vim-fugitive'
+"Bundle 'jreybert/vimagit'
 Bundle 'airblade/vim-gitgutter'
-
-" HCL formatting
-Bundle 'fatih/vim-hclfmt'
 
 Bundle 'w0rp/ale'
 let g:ale_linters = {
@@ -138,6 +137,9 @@ Bundle 'godlygeek/tabular'
 
 " Terraform + HCL
 Bundle 'hashivim/vim-terraform'
+Bundle 'juliosueiras/vim-terraform-completion'
+let g:deoplete#omni_patterns = {}
+let g:deoplete#omni_patterns.terraform = '[^ *\t"{=$]\w*'
 
 " File utils
 Bundle 'tpope/vim-eunuch'
@@ -163,9 +165,12 @@ let g:UltiSnipsExpandTrigger="<tab>"
 
 Bundle 'honza/vim-snippets'
 
-" Replace grep with ack, using ag for backend
-Bundle 'mileszs/ack.vim'
-let g:ackprg = 'ag --vimgrep'
+Bundle 'junegunn/fzf'
+Bundle 'junegunn/fzf.vim'
+let g:fzf_files_options =
+   \ '--preview "(coderay {} || cat {}) 2> /dev/null | head -'.&lines.'"'
+
+Bundle 'lervag/vimtex'
 
 " Racket
 "Bundle 'wlangstroth/vim-racket'
@@ -193,15 +198,13 @@ au BufNewFile,BufRead *.md.html set filetype=markdown
 " Keybindings {{{
 let g:mapleader = ' '
 let g:maplocalleader = '\'
+inoremap jk <ESC>
 " move vertically by visual line
 nnoremap j gj
 nnoremap k gk
 " move to beginning/end of line
 nnoremap B ^
 nnoremap E $
-" $/^ doesn't do anything
-nnoremap $ <nop>
-nnoremap ^ <nop>
 " edit vimrc/zshrc and load vimrc bindings
 nnoremap <leader>ev :vsp $MYVIMRC<CR>
 nnoremap <leader>ez :vsp ~/.zshrc<CR>
@@ -254,6 +257,11 @@ map <C->> <Plug>(paredit-slurp)
 if exists(':tnoremap')
     tnoremap <Esc> <C-\><C-n>
 endif
+" FZF
+nnoremap <silent> <C-p> :Files<CR>
+" Ripgrep
+nnoremap <leader>rg :Rg<space>
+nnoremap <leader>! :Rg!<space>
 " }}}
 
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
