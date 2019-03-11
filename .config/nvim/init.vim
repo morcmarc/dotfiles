@@ -1,8 +1,9 @@
-" Needed because I'm using fish
 set shell=/bin/zsh
 
 set nocompatible              " be iMproved, required
 filetype off                  " required
+set hidden
+set viminfo='20,<1000,s1000 " increase copy/paste buffer size
 
 " Functions {{{
 function! NumberToggle()
@@ -19,133 +20,129 @@ endfunc
 " Plugins {{{
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+"set rtp+=~/.vim/bundle/Vundle.vim
+"call vundle#begin()
+
+call plug#begin('~/.local/share/nvim/plugged')
 
 " let Vundle manage Vundle, required
-Bundle 'gmarik/Vundle.vim'
-Bundle 'utl.vim'
-Bundle 'taglist.vim'
-Bundle 'repeat.vim'
-Bundle 'speeddating.vim'
-Bundle 'calendar.vim'
-" Bundle 'paredit.vim'
+"Plug 'gmarik/Vundle.vim'
+
+"Plug 'utl.vim'
+"Plug 'taglist.vim'
+"Plug 'repeat.vim'
+"Plug 'speeddating.vim'
+"Plug 'calendar.vim'
+"Plug 'paredit.vim'
 
 " Better undo
-Bundle 'sjl/gundo.vim'
+Plug 'sjl/gundo.vim'
 let g:gundo_prefer_python3 = 1
 
 " Searching
-Bundle 'haya14busa/incsearch.vim'
+Plug 'haya14busa/incsearch.vim'
 set hlsearch
 let g:incsearch#auto_nohlsearch = 1
 
 " Insert closing parens, brackets etc
-Bundle 'Raimondi/delimitMate'
+Plug 'Raimondi/delimitMate'
 
 " Color scheme
-Bundle 'morhetz/gruvbox'
-
-" Quick file open with fuzz search
-"Bundle 'kien/ctrlp.vim'
-"let g:ctrlp_custom_ignore = {'dir': '\v[\/]\.?(git|hg|node_modules)$',}
-"let g:ctrlp_match_window = 'bottom,order:ttb'
-"let g:ctrlp_switch_buffer = 0
-"let g:ctrlp_working_path_mode = 0
-"let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+Plug 'morhetz/gruvbox'
 
 " Improved JS support
-Bundle 'pangloss/vim-javascript'
+Plug 'pangloss/vim-javascript'
 
 " Powerbar at bottom
-Bundle 'vim-airline/vim-airline'
-Bundle 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 let g:airline_theme='base16'
 let g:airline_powerline_fonts = 1
 
 " Tabs
-Bundle 'bling/vim-bufferline'
+Plug 'bling/vim-bufferline'
 let g:bufferline_show_bufnr = 1
 let g:bufferline_echo = 0
 
 " Expand region
-Bundle 'terryma/vim-expand-region'
+Plug 'terryma/vim-expand-region'
 
 " Syntax goodness
-Bundle 'scrooloose/syntastic'
+"Plug 'scrooloose/syntastic'
+
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
+nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+    \ 'python': ['/usr/local/bin/pyls'],
+    \ 'go': ['bingo'],
+    \ 'javascript.jsx': ['javascript-typescript-stdio'],
+    \ 'javascript': ['javascript-typescript-stdio']
+    \ }
 
 " Filebrowser sidebar
-Bundle 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 let NERDTreeQuitOnOpen=1
 
 " Commenting
-Bundle 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdcommenter'
 
-Bundle 'Shougo/deoplete.nvim'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 let g:deoplete#enable_at_startup = 1
 set completeopt-=preview
 
 " Go support
-Bundle 'fatih/vim-go'
-let g:go_fmt_command = "goimports"
-let g:go_snippet_engine = "automatic"
+"Plug 'fatih/vim-go'
+"let g:go_fmt_command = "goimports"
+"let g:go_snippet_engine = "automatic"
 
-Bundle 'zchee/deoplete-go'
-let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
-let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
-let g:deoplete#sources#go#pointer = 1
+"Plug 'zchee/deoplete-go'
+"let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
+"let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
+"let g:deoplete#sources#go#pointer = 1
 
 " Project management (syntax highlighting per folder, per file etc)
-Bundle 'tpope/vim-projectionist'
+Plug 'tpope/vim-projectionist'
 
 " Async operations (i.e, run `make`)
-Bundle 'tpope/vim-dispatch'
+Plug 'tpope/vim-dispatch'
 
 " Replace / surround stuff with quotes and others
-Bundle 'tpope/vim-surround'
+Plug 'tpope/vim-surround'
 
 " Git support
-Bundle 'tpope/vim-fugitive'
-"Bundle 'jreybert/vimagit'
-Bundle 'airblade/vim-gitgutter'
-
-Bundle 'w0rp/ale'
-let g:ale_linters = {
-            \'javascript': ['eslint'],
-            \'jsx': ['eslint']
-            \}
-"let g:ale_fixers = {
-            "\'javascript': ['eslint'],
-            "\'jsx': ['eslint']
-            "\}
-"let g:ale_fix_on_save = 1
-"let g:ale_completion_enabled = 1
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 
 " Format code plugin
-Bundle 'Chiel92/vim-autoformat'
-let g:formatters_javascript = ['eslint_local']
-let g:formatters_jsx = ['eslint_local']
+"Plug 'Chiel92/vim-autoformat'
+"let g:formatters_javascript = ['eslint_local']
+"let g:formatters_jsx = ['eslint_local']
 
 " JSX highlighting
-Bundle 'mxw/vim-jsx'
+Plug 'mxw/vim-jsx'
+au BufRead,BufNewFile *.jsx set filetype=javascript.jsx
 
 " Easier navigation
-Bundle 'easymotion/vim-easymotion'
+Plug 'easymotion/vim-easymotion'
 
 " Alignment plugin
-Bundle 'godlygeek/tabular'
+Plug 'godlygeek/tabular'
 
 " Terraform + HCL
-Bundle 'hashivim/vim-terraform'
-Bundle 'juliosueiras/vim-terraform-completion'
+Plug 'hashivim/vim-terraform'
+Plug 'juliosueiras/vim-terraform-completion'
 let g:deoplete#omni_patterns = {}
 let g:deoplete#omni_patterns.terraform = '[^ *\t"{=$]\w*'
 
 " File utils
-Bundle 'tpope/vim-eunuch'
+Plug 'tpope/vim-eunuch'
 
 " Tags manager (non-generic)
-Bundle 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar'
 let g:tagbar_type_make = {
             \ 'kinds':[
             \ 'm:macros',
@@ -154,29 +151,33 @@ let g:tagbar_type_make = {
             \}
 
 " Distraction free editing
-Bundle 'junegunn/goyo.vim'
-Bundle 'junegunn/limelight.vim'
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
 autocmd! User GoyoEnter Limelight
 autocmd! User GoyoLeave Limelight!
 
 " Snippets
-Bundle 'SirVer/ultisnips'
+Plug 'SirVer/ultisnips'
 let g:UltiSnipsExpandTrigger="<tab>"
 
-Bundle 'honza/vim-snippets'
+Plug 'honza/vim-snippets'
 
-Bundle 'junegunn/fzf'
-Bundle 'junegunn/fzf.vim'
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
 let g:fzf_files_options =
    \ '--preview "(coderay {} || cat {}) 2> /dev/null | head -'.&lines.'"'
 
-Bundle 'lervag/vimtex'
+Plug 'lervag/vimtex'
 
 " Racket
-"Bundle 'wlangstroth/vim-racket'
+"Plug 'wlangstroth/vim-racket'
 "let g:syntastic_enable_racket_racket_checker=1
 
-call vundle#end()            " required
+Plug 'derekwyatt/vim-scala'
+au BufRead,BufNewFile *.sbt set filetype=scala
+
+"call vundle#end()            " required
+call plug#end()
 filetype plugin indent on    " required
 " }}}
 
@@ -229,12 +230,12 @@ map g# <Plug>(incsearch-nohl-g#)
 map <C-b> :bn<CR>
 map <C-v> :bp<CR>
 " golang keys
-au FileType go nmap <Leader>l <Plug>(go-metalinter)
-au FileType go nmap <Leader>t <Plug>(go-test)
-au FileType go nmap <Leader>b <Plug>(go-build)
-au FileType go nmap <Leader>d <Plug>(go-def)
-au FileType go nmap <F18> <Plug>(go-rename)
-au FileType go nnoremap <leader>a :cclose<CR>
+"au FileType go nmap <Leader>l <Plug>(go-metalinter)
+"au FileType go nmap <Leader>t <Plug>(go-test)
+"au FileType go nmap <Leader>b <Plug>(go-build)
+"au FileType go nmap <Leader>d <Plug>(go-def)
+"au FileType go nmap <F18> <Plug>(go-rename)
+"au FileType go nnoremap <leader>a :cclose<CR>
 " fugitive / git bindings
 map <leader>gs :Gstatus<CR>
 map <leader>gp :Gpush<CR>
