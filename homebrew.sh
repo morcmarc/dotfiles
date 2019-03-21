@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 declare -a brews=("ack"
+                  "bat"
+                  "exa"
                   "fd"
                   "fontconfig"
                   "fzf"
