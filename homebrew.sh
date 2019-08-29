@@ -32,6 +32,7 @@ declare -a casks=("alacritty"
                   "google-chrome"
                   "slack"
                   "docker"
+                  "spectacles"
                   )
 
 # Install CommandLineTools

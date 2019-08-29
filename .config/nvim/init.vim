@@ -33,7 +33,7 @@ call plug#begin('~/.local/share/nvim/plugged')
 "Plug 'repeat.vim'
 "Plug 'speeddating.vim'
 "Plug 'calendar.vim'
-"Plug 'paredit.vim'
+Plug 'vim-scripts/paredit.vim'
 
 " Better undo
 Plug 'sjl/gundo.vim'
@@ -68,7 +68,8 @@ let g:bufferline_echo = 0
 Plug 'terryma/vim-expand-region'
 
 " Syntax goodness
-"Plug 'scrooloose/syntastic'
+Plug 'scrooloose/syntastic'
+let g:syntastic_enable_racket_racket_checker=0
 
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
@@ -76,11 +77,7 @@ Plug 'autozimu/LanguageClient-neovim', {
     \ }
 nnoremap <F5> :call LanguageClient_contextMenu()<CR>
 let g:LanguageClient_serverCommands = {
-    \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
-    \ 'python': ['/usr/local/bin/pyls'],
-    \ 'go': ['bingo'],
-    \ 'javascript.jsx': ['javascript-typescript-stdio'],
-    \ 'javascript': ['javascript-typescript-stdio']
+    \ 'racket': ['racket-language-server'],
     \ }
 
 " Filebrowser sidebar
@@ -93,16 +90,17 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 let g:deoplete#enable_at_startup = 1
 set completeopt-=preview
+set completefunc=LanguageClient#complete
 
 " Go support
-"Plug 'fatih/vim-go'
-"let g:go_fmt_command = "goimports"
-"let g:go_snippet_engine = "automatic"
+Plug 'fatih/vim-go'
+let g:go_fmt_command = "goimports"
+let g:go_snippet_engine = "automatic"
 
-"Plug 'zchee/deoplete-go'
-"let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
-"let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
-"let g:deoplete#sources#go#pointer = 1
+Plug 'zchee/deoplete-go'
+let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
+let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
+let g:deoplete#sources#go#pointer = 1
 
 " Project management (syntax highlighting per folder, per file etc)
 Plug 'tpope/vim-projectionist'
@@ -118,9 +116,9 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 " Format code plugin
-"Plug 'Chiel92/vim-autoformat'
-"let g:formatters_javascript = ['eslint_local']
-"let g:formatters_jsx = ['eslint_local']
+Plug 'Chiel92/vim-autoformat'
+let g:formatters_javascript = ['eslint_local']
+let g:formatters_jsx = ['eslint_local']
 
 " JSX highlighting
 Plug 'mxw/vim-jsx'
@@ -169,13 +167,6 @@ let g:fzf_files_options =
 
 Plug 'lervag/vimtex'
 
-" Racket
-"Plug 'wlangstroth/vim-racket'
-"let g:syntastic_enable_racket_racket_checker=1
-
-Plug 'derekwyatt/vim-scala'
-au BufRead,BufNewFile *.sbt set filetype=scala
-
 "call vundle#end()            " required
 call plug#end()
 filetype plugin indent on    " required
@@ -194,6 +185,8 @@ let g:jsx_ext_required = 0
 
 " highlight Markdeep files as markdown
 au BufNewFile,BufRead *.md.html set filetype=markdown
+
+au BufNewFile,BufRead *.rkt, set filetype=racket
 " }}}
 
 " Keybindings {{{
@@ -230,12 +223,12 @@ map g# <Plug>(incsearch-nohl-g#)
 map <C-b> :bn<CR>
 map <C-v> :bp<CR>
 " golang keys
-"au FileType go nmap <Leader>l <Plug>(go-metalinter)
-"au FileType go nmap <Leader>t <Plug>(go-test)
-"au FileType go nmap <Leader>b <Plug>(go-build)
-"au FileType go nmap <Leader>d <Plug>(go-def)
-"au FileType go nmap <F18> <Plug>(go-rename)
-"au FileType go nnoremap <leader>a :cclose<CR>
+au FileType go nmap <Leader>l <Plug>(go-metalinter)
+au FileType go nmap <Leader>t <Plug>(go-test)
+au FileType go nmap <Leader>b <Plug>(go-build)
+au FileType go nmap <Leader>d <Plug>(go-def)
+au FileType go nmap <F18> <Plug>(go-rename)
+au FileType go nnoremap <leader>a :cclose<CR>
 " fugitive / git bindings
 map <leader>gs :Gstatus<CR>
 map <leader>gp :Gpush<CR>
