@@ -33,6 +33,7 @@ declare -a casks=("alacritty"
                   "slack"
                   "docker"
                   "spectacles"
+                  "visual-studio-code"
                   )
 
 # Install CommandLineTools

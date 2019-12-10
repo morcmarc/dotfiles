@@ -39,6 +39,9 @@ alias find=my-fd
 function my-rg() { rg "$@" }
 alias grep=my-rg
 
+function my-code() {  /Applications/Visual\ Studio\ Code.app/Contents/Resources/app/bin/code "$@" }
+alias vscode=my-code
+
 function ptc() { bw get password $1 | tr -d '\n' | tr -d ' ' | pbcopy }
 
 # tabtab source for serverless package
