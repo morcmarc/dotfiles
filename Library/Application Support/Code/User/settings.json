@@ -1,0 +1,11 @@
+{
+    "workbench.colorTheme": "One Dark Pro",
+    "files.autoSave": "afterDelay",
+    "telemetry.enableTelemetry": false,
+    "editor.fontSize": 14,
+    "editor.fontFamily": "Fira Code, Menlo, Monaco, 'Courier New', monospace",
+    "workbench.iconTheme": "vscode-icons",
+    "editor.scrollBeyondLastLine": false,
+    "editor.smoothScrolling": true,
+    "workbench.startupEditor": "newUntitledFile"
+}
