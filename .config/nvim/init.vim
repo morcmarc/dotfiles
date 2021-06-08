@@ -19,21 +19,7 @@ endfunc
 
 " Plugins {{{
 
-" set the runtime path to include Vundle and initialize
-"set rtp+=~/.vim/bundle/Vundle.vim
-"call vundle#begin()
-
 call plug#begin('~/.local/share/nvim/plugged')
-
-" let Vundle manage Vundle, required
-"Plug 'gmarik/Vundle.vim'
-
-"Plug 'utl.vim'
-"Plug 'taglist.vim'
-"Plug 'repeat.vim'
-"Plug 'speeddating.vim'
-"Plug 'calendar.vim'
-Plug 'vim-scripts/paredit.vim'
 
 " Better undo
 Plug 'sjl/gundo.vim'
@@ -50,9 +36,6 @@ Plug 'Raimondi/delimitMate'
 " Color scheme
 Plug 'morhetz/gruvbox'
 
-" Improved JS support
-Plug 'pangloss/vim-javascript'
-
 " Powerbar at bottom
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -67,40 +50,12 @@ let g:bufferline_echo = 0
 " Expand region
 Plug 'terryma/vim-expand-region'
 
-" Syntax goodness
-Plug 'scrooloose/syntastic'
-let g:syntastic_enable_racket_racket_checker=0
-
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
-nnoremap <F5> :call LanguageClient_contextMenu()<CR>
-let g:LanguageClient_serverCommands = {
-    \ 'racket': ['racket-language-server'],
-    \ }
-
 " Filebrowser sidebar
 Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 let NERDTreeQuitOnOpen=1
 
 " Commenting
 Plug 'scrooloose/nerdcommenter'
-
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-let g:deoplete#enable_at_startup = 1
-set completeopt-=preview
-set completefunc=LanguageClient#complete
-
-" Go support
-Plug 'fatih/vim-go'
-let g:go_fmt_command = "goimports"
-let g:go_snippet_engine = "automatic"
-
-Plug 'zchee/deoplete-go'
-let g:deoplete#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
-let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
-let g:deoplete#sources#go#pointer = 1
 
 " Project management (syntax highlighting per folder, per file etc)
 Plug 'tpope/vim-projectionist'
@@ -115,26 +70,11 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
-" Format code plugin
-Plug 'Chiel92/vim-autoformat'
-let g:formatters_javascript = ['eslint_local']
-let g:formatters_jsx = ['eslint_local']
-
-" JSX highlighting
-Plug 'mxw/vim-jsx'
-au BufRead,BufNewFile *.jsx set filetype=javascript.jsx
-
 " Easier navigation
 Plug 'easymotion/vim-easymotion'
 
 " Alignment plugin
 Plug 'godlygeek/tabular'
-
-" Terraform + HCL
-Plug 'hashivim/vim-terraform'
-Plug 'juliosueiras/vim-terraform-completion'
-let g:deoplete#omni_patterns = {}
-let g:deoplete#omni_patterns.terraform = '[^ *\t"{=$]\w*'
 
 " File utils
 Plug 'tpope/vim-eunuch'
@@ -160,14 +100,30 @@ let g:UltiSnipsExpandTrigger="<tab>"
 
 Plug 'honza/vim-snippets'
 
+" Fuzzy finder (ctrlp replacement)
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 let g:fzf_files_options =
    \ '--preview "(coderay {} || cat {}) 2> /dev/null | head -'.&lines.'"'
 
-Plug 'lervag/vimtex'
+" Editor Config
+Plug 'editorconfig/editorconfig-vim'
+let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
-"call vundle#end()            " required
+Plug 'dense-analysis/ale'
+let g:ale_fix_on_save = 1
+let g:ale_completion_autoimport = 1
+let b:ale_fixers = {'go': ['gopls']}
+
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+let g:deoplete#enable_at_startup = 1
+
 call plug#end()
 filetype plugin indent on    " required
 " }}}
@@ -185,8 +141,6 @@ let g:jsx_ext_required = 0
 
 " highlight Markdeep files as markdown
 au BufNewFile,BufRead *.md.html set filetype=markdown
-
-au BufNewFile,BufRead *.rkt, set filetype=racket
 " }}}
 
 " Keybindings {{{
@@ -196,9 +150,6 @@ inoremap jk <ESC>
 " move vertically by visual line
 nnoremap j gj
 nnoremap k gk
-" move to beginning/end of line
-nnoremap B ^
-nnoremap E $
 " edit vimrc/zshrc and load vimrc bindings
 nnoremap <leader>ev :vsp $MYVIMRC<CR>
 nnoremap <leader>ez :vsp ~/.zshrc<CR>
@@ -222,13 +173,6 @@ map g# <Plug>(incsearch-nohl-g#)
 " buffer navigation
 map <C-b> :bn<CR>
 map <C-v> :bp<CR>
-" golang keys
-au FileType go nmap <Leader>l <Plug>(go-metalinter)
-au FileType go nmap <Leader>t <Plug>(go-test)
-au FileType go nmap <Leader>b <Plug>(go-build)
-au FileType go nmap <Leader>d <Plug>(go-def)
-au FileType go nmap <F18> <Plug>(go-rename)
-au FileType go nnoremap <leader>a :cclose<CR>
 " fugitive / git bindings
 map <leader>gs :Gstatus<CR>
 map <leader>gp :Gpush<CR>
@@ -239,10 +183,6 @@ map <localleader>t :Tabular
 nmap <leader>t :TagbarToggle<CR>
 " ack / ag binding
 nnoremap <leader>a :Ack<space>
-" autoformatting
-nmap <Leader>f :Autoformat<cr>
-" javascript
-au FileType javascript.jsx nmap <Leader>l :Dispatch yarn eslint %<cr>
 " Line number toggle
 map <leader>^ :call NumberToggle()<cr>
 " Paredit
@@ -252,13 +192,16 @@ if exists(':tnoremap')
     tnoremap <Esc> <C-\><C-n>
 endif
 " FZF
-nnoremap <silent> <C-p> :Files<CR>
+nnoremap <silent> <C-p> :GFiles<CR>
+nnoremap <silent> <C-f> :Files<CR>
 " Ripgrep
 nnoremap <leader>rg :Rg<space>
 nnoremap <leader>! :Rg!<space>
-" }}}
+" Autoformat
+"nnoremap <leader>f :Autoformat<CR>
+"nnoremap <Leader>s :%s/\<<C-r><C-w>\>//g<Left><Left>
 
-autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
+" }}}
 
 " Generic config {{{
 
@@ -267,10 +210,25 @@ set termguicolors
 set showcmd
 set wildmenu
 set lazyredraw
+set nobackup
+set nowritebackup
 
 set foldenable
 set foldlevelstart=10
 set foldnestmax=10
+
+set cmdheight=2
+
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved.
+set signcolumn=yes
+
+" Don't pass messages to |ins-completion-menu|.
+set shortmess+=c
 
 " enable backspace
 set backspace=2
@@ -289,7 +247,7 @@ set binary
 set noeol
 
 set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
-set synmaxcol=128
+set synmaxcol=256
 syntax sync minlines=256
 set nocursorcolumn
 set cursorline
